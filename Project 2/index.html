@@ -1,0 +1,253 @@
+<html>
+    <head>
+        <title>
+            University app
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+        <!--Custom Javascript/Jquery -->
+        <script language="JavaScript" type="text/javascript" src="js_files/RGraph.common.core.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js_files/RGraph.common.dynamic.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js_files/RGraph.common.effects.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js_files/RGraph.cornergauge.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js_files/RGraph.hprogress.js"></script>
+        <script language="JavaScript" type="text/javascript" src="js_files/RGraph.line.js"></script>
+    
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <style>
+		body{
+			text-align: center;
+		}
+
+        table{
+			width: 100%;
+		}
+
+		th{
+			background: #000;
+			color: #fff;
+			text-align: center;
+			padding: 5px;
+		}
+		table,td,tr{
+			text-align: center;
+			border: solid 2px #000;
+			padding: 5px;
+
+		}
+
+		.ui-btn-up-c {
+
+			color: rgb(32, 7, 255);
+		}
+		</style>
+         <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+        <script type="text/javascript" src="server.js"></script> 
+        <script>
+        //for bypassing the chrome error
+        $(document).bind('mobileinit', function () {
+            $.mobile.pushStateEnabled = false;
+        });
+        </script>
+        <script type="text/html" id="validate">
+            <div class="alert alert-warning alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">Ã—</span></button>
+                <strong>Please don't leave any answers empty</strong> 
+            </div>
+    </script>
+        <!-- JQM -->
+        <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </head>
+
+    <body>
+        <!-- Start of first page -->
+    <div data-role="page" id="pageHome">
+        <div data-role="header" data-id="persistent" data-position="fixed">
+            <h1>UNIVERSITY DB</h1>
+        </div>
+        <div data-role="content">
+            <label for="uniname">University</label>
+            <input type='text' name='university' id='university' placeholder="Name of the University here" required/>
+            <label for="address">Address</label>
+            <input type='text' name='address' id='address' placeholder="Full Address here" required />
+            <label for="password">Phone Number</label>
+            <input type='number' name='no' id='no' placeholder="Input the phone number" required />
+            <div id="err"></div>
+            <div data-role="controlgroup" id="numKeyPad">
+                <a data-role="button" id="btnEnter" onclick="saveinfo();">Save</a>
+                <a data-role="button" id= "btnENter" onclick="delinfo();">Delete</a>
+            </div>
+        </div>
+        <div data-role="content">
+            <label for="uniname">University</label>
+            <input type='text' name='search_university' id='search_university' placeholder="Name of the University to search here">
+            <div data-role="controlgroup">
+                    <a data-role="button" onclick="searchinfo();">Search</a>
+                    <a data-role="button" onclick="displayinfo();">Display</a>
+				</div>
+				<table id="display">
+					</table>
+        </div>
+        <div data-role="footer" data-id="persistent" data-position="fixed">
+            <h4 style="font-family:monospace">Redeveloped by Hema</h4>
+        </div>
+    </div>    
+
+    </body>
+
+    <script>
+
+var server_url = "http://dev.cs.smu.ca:8120";
+
+function empty_check(){
+	var uni = $("#university").val();
+	var add = $("#address").val();
+	var phone = $("#no").val();
+	var html = $("#validate").html();
+	var regex = new RegExp("{(message)}","ig");
+
+	if(uni == ""){
+		html = html.replace(regex,function(text,key){
+			return "Please Provide the Name of the University";
+		});
+		$("#err").html(html);
+		$("#university").focus();
+		return false;
+	}else if(add == ""){
+		html = html.replace(regex,function(text,key){
+			return "Please Fill out the full address";
+		});
+		$("#err").html(html);
+		$("#address").focus();
+		return false;
+	}else if(phone == ""){
+		html = html.replace(regex,function(text,key){
+			return "Please provide the Phone number of the University";
+		});
+		$("#err").html(html);
+		$("#no").focus();
+		return false;
+	}
+	return true;
+};
+
+function clean_input(){
+	$("#university").val("");
+	$("#address").val("");
+	$("#no").val("");
+};
+
+function saveinfo(){
+	if(empty_check()){
+		var new_data = {
+			Name:$("#university").val(),
+			Address:$("#address").val(),
+			Phone:$("#no").val()
+		};
+		$.post(server_url + "/saveUniversity", new_data, function(data){
+			alert(data);
+			clean_input();
+		}).fail(function(error){
+			if(error.responseText == ""){
+				alert("Please run `node server.js`");
+			}else{
+				alert("ERROR: "+error.responseText);
+			}
+		});
+	}
+};
+
+function delinfo(){
+	var html = $("#validate").html();
+	var regex = new RegExp("{(message)}","ig");
+	if($("#university").val()!=""){
+		var dlt_unv = {
+			Name:$("#university").val()
+		};
+		$.post(server_url + "/deleteUniversity", dlt_unv, function(data){
+			alert(data);
+			clean_input();
+		}).fail(function(error){
+			if(error.responseText == ""){
+				alert("Please run node server.js`");
+			}else{
+				alert("ERROR: "+error.responseText);
+			}
+		});
+	}else{
+		html = html.replace(regex,function(text,key){
+			return "Please Enter University Name ";
+		});
+		$("#err").html(html);
+		$("#university").focus();
+	}
+};
+
+function searchinfo(){
+	var html = $("#unv_save_alert").html();
+	var regex = new RegExp("{(message)}","ig");
+	if($("#search_university").val()!=""){
+		var search_unv = {
+			Name:$("#search_university").val()
+		};
+		$.post(server_url + "/searchUniversity", search_unv, function(data){
+			var unv_record = data;
+			if(unv_record==null&&unv_record.length==0){
+				html = html.replace(regex,function(text,key){
+					return "No Record Found.";
+				});
+				$("#err").html(html);
+			}else{
+				$("#university").val(unv_record[0].Name);
+				$("#address").val(unv_record[0].Address);
+				$("#no").val(unv_record[0].Phone);
+			}
+		}).fail(function(error){
+			if(error.responseText == ""){
+				alert("Please run node server.js`");
+			}else{
+				alert("ERROR: "+error.responseText);
+			}
+		});
+	}else{
+		html = html.replace(regex,function(text,key){
+			return "Please Enter University Name to Search!";
+		});
+		$("#err").html(html);
+		$("#search_university").focus();
+	}
+};
+
+function displayinfo(){
+	$.post(server_url + "/displayUniversity", function(data){
+		var unv_records = data;
+		if(unv_records==null||unv_records.length==0){
+			html = html.replace(regex,function(text,key){
+				return "No Record Found.";
+			});
+			$("#err").html(html);
+		}else{
+			var tbResult = "<tr><th><b>University</b></th><th><b>Address</b></th><th><b>Phone No</b></th></tr>";
+			for(var i=0; i<unv_records.length;i++){
+				var tmpName = unv_records[i].Name;
+				var tmpAddress = unv_records[i].Address;
+				var tmpPhone = unv_records[i].Phone;
+				tbResult += "<tr><td>"+tmpName+"</td><td>"+tmpAddress+"</td><td>"+tmpPhone+"</td></tr>";
+			}
+			document.getElementById("display").innerHTML = tbResult;			
+		}
+	}).fail(function(error){
+		if(error.responseText == ""){
+			alert("Please run `node server.js`");
+		}else{
+			alert("ERROR: "+error.responseText);
+		}
+	});
+};
+    </script>
+
+</html>
