@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <title>
+            Class Activity
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+        <style>
+         body{
+                text-align: center;
+                padding: 10px;
+                background-color: #C1F0F6;
+            }
+            .btn{
+                background-color:  #009ACD;
+                border:0px;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 10%;
+                font-family: 'Courier New', Courier, monospace;
+                font-weight: bold;
+            }
+
+            .btn:hover{
+                background-color:  #C1F0F6;
+                pointer-events: mouse;
+                border:2px solid  #009ACD;
+            }
+            input{
+                height: 30px;
+                width:20%;
+                border-radius: 10px;
+                border: 1px solid #009ACD;
+                padding: 10px;
+                text-align: center;
+            }
+
+            input:hover{
+                height: 30px;
+                width:20%;
+                border-radius: 10px;
+                border: 1px solid #009ACD;
+            }
+
+        </style>
+        
+    </head>
+
+    <body>
+        <h1> This is the Test app </h1>
+         <table>
+             <tr>
+                 Enter First Number
+             </tr></br>
+
+             <tr>
+                <input type="number" method="post" id="one" placeholder="input first number">
+             </tr> </br>
+
+             <tr>
+                 Input second Number
+             </tr> </br> </br>
+
+             <tr>
+                <input type="number" method="post" id="two" placeholder="Input second number">
+             </tr> </br> </br>
+
+             <tr>
+                 <button class="btn" OnClick="saveValue()"> Save Sum</button>
+             </tr> </br></br>
+
+             <tr>
+                    <button class="btn" OnClick="getValue()"> Get Result</button>
+            </tr> 
+        </table>
+
+    </body>
+
+    <script>
+        var SERVER_URL ="http://dev.cs.smu.ca:8120"
+
+        function saveValue(){
+
+            var object ={
+                "one":$("#one").val(),
+                "two":$("#two").val(),
+                "fileName": "result.txt"
+            };
+
+            //sending request
+
+            $.post(SERVER_URL+"/addNumbers", obj, function(data){
+                alert("Result Saved SUccessfully!");
+            }).fail(function(error){
+                alert("Error:"+error.responseText);
+
+            });
+        }
+    
+    </script>
+    <script type="text/javascript" src="app-server.js"></script>
+</html>

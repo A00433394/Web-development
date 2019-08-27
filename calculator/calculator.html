@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <title> Calculator app</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+            body{
+                text-align: center;
+                padding: 10px;
+                background-color: #C1F0F6;
+            }
+
+            h1{
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: #009ACD;
+            }
+
+           .btn{
+                background-color:  #009ACD;
+                border:0px;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 10%;
+                font-family: 'Courier New', Courier, monospace;
+                font-weight: bold;
+            }
+
+            .btn:hover{
+                background-color:  #C1F0F6;
+                pointer-events: mouse;
+                border:2px solid  #009ACD;
+            }
+
+            .btn:active{
+                background-color:  #C1F0F6;
+                pointer-events: mouse;
+                border:2px solid  #009ACD;
+            }
+
+            input{
+                height: 30px;
+                width:20%;
+                border-radius: 10px;
+                border: 1px solid #009ACD;
+                padding: 10px;
+                text-align: center;
+            }
+
+            input:hover{
+                height: 30px;
+                width:20%;
+                border-radius: 10px;
+                border: 1px solid #009ACD;
+            }
+
+            p{
+                font-weight: bold;
+            }
+
+
+
+        
+        </style>
+    </head>
+
+    <body>
+        <h1> CALCULATOR APPLICATION </h1> </br>
+    </br>
+        <table>
+            <tr>
+                <p> Input the First number here </p>
+            </tr>
+            <tr>
+                <input type="number" id= "first" placeholder=" first number here">
+            </tr>
+            <tr>
+                <p> Input the Second number here </p>
+            </tr>
+            <tr>
+                 <input type="number" id= "second" placeholder="first number here">
+            </tr>
+        </br>
+    </br>
+            <tr>
+                <p style="color:#009ACD"> CLick on the operation you want to perform</p>
+            </tr>
+            <tr>
+                 <button class="btn" onclick="add();"> Add </button>
+            </tr>
+            <tr>
+                <button class="btn" onclick="subtract();"> Subtract </button>
+            </tr>
+            <tr>
+                <button class="btn" onclick="Multiply();"> Multiply </button>
+            </tr>
+            <tr>
+                <button class="btn" onclick="Divide();"> Divide </button>
+            </tr>
+        </br>
+    </br>
+</br>
+
+            <tr>
+                <p> Your result is </p>
+            </tr>
+            <tr>
+                <input type="text" id= "result">
+            </tr>
+        </table>       
+    </body>
+    <script>
+    
+    function add(){
+        var a = parseInt(document.getElementById("first").value);
+        var b = parseInt(document.getElementById("second").value);
+        document.getElementById("result").value = a+b;
+    };
+
+    function subtract(){
+        var a = document.getElementById("first").value;
+        var b = document.getElementById("second").value;
+        document.getElementById("result").value = a-b;
+    };
+
+    function Multiply(){
+        var a = document.getElementById("first").value;
+        var b = document.getElementById("second").value;
+        document.getElementById("result").value = a*b;
+    };
+
+    function Divide(){
+        var a = document.getElementById("first").value;
+        var b = document.getElementById("second").value;
+        document.getElementById("result").value = a/b;
+    };
+
+    </script>
+</html>
