@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>
+            Table using Array
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+             body{
+                text-align: center;
+                padding: 10px;
+                background-color: #C1F0F6;
+            }
+
+            h1{
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: #009ACD;
+            }
+
+            .btn{
+                background-color:  #009ACD;
+                border:0px;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 10%;
+                font-family: 'Courier New', Courier, monospace;
+                font-weight: bold;
+            }
+
+            .btn:hover{
+                background-color:  #C1F0F6;
+                pointer-events: mouse;
+                border:2px solid  #009ACD;
+            }
+
+            .btn:active{
+                background-color:  #C1F0F6;
+                pointer-events: mouse;
+                border:2px solid  #009ACD;
+            }
+            input{
+                height: 30px;
+                width:20%;
+                border-radius: 10px;
+                border: 1px solid #009ACD;
+                padding: 10px;
+                text-align: center;
+            }
+
+            input:hover{
+                height: 30px;
+                width:20%;
+                border-radius: 10px;
+                border: 1px solid #009ACD;
+            }
+
+            p{
+                font-weight: bold;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <h1> Using Arrays to Draw Tables</h1>
+
+        <table>
+            <tr>
+                <input type="number" id="start" placeholder="input minimum number to start from">
+            </tr> <br> <br>
+            <tr>
+                <input type="number" id="stop" placeholder="input maximum number to start from">
+            </tr><br> <br> <br> <br> <br>
+            <tr> 
+                <button class="btn" onclick="DrawTable()"> Draw Table</button>
+            </tr> <br>
+            <tr>
+                <output id="result"></output>
+            </tr>
+        </table>     
+    </body>
+
+    <script>
+
+        function DrawTable(){
+            var minimum = document.getElementById("start").value;
+            var maximum = document.getElementById("stop").value;
+            min= Number(minimum)
+            max = Number(maximum)
+            if(min>=max){
+                alert("The start value should be smaller");
+            }else{
+                table = "<style> .body{ text-align: centre; } </style> <body> <table> <tr> <th> N </th> <th> N*N </th> <th> N*N*N</th> </tr> </table> </body>";
+                for(i=min;i<=max; i=i+5){
+                    table += "<table> <tr> <td>" +i+"</td> <td>"+i*i+"</td><td>"+i*i*i+"</td></td> </table>";
+                }
+                document.getElementById("result").innerHTML = table;
+            }
+        };
+
+    </script> 
+</html>
